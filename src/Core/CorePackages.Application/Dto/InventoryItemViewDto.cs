@@ -2,11 +2,14 @@
 
 namespace CorePackages.Application.Dto;
 
-public class InventoryItemViewDto : BaseEntity
+public class InventoryItemViewDto 
 {
     public string Name { get; set; }
     public int Quantity { get; set; }
 
     // Navigation property for depot
-    public DepotViewDto Depot { get; set; }
+
+    public Guid DepotId { get; set; }
+
+    //public DepotViewDto Depot { get; set; }
 }

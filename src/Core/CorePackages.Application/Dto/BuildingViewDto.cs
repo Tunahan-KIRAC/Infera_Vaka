@@ -3,7 +3,7 @@ using CorePackages.Domain.Entities;
 
 namespace CorePackages.Application.Dto;
 
-public class BuildingViewDto: BaseEntity
+public class BuildingViewDto
 {
     public string Name { get; set; }
 

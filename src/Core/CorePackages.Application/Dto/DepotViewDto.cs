@@ -2,9 +2,10 @@
 
 namespace CorePackages.Application.Dto;
 
-public class DepotViewDto:BaseEntity
+public class DepotViewDto
 {
     public string Name { get; set; }
-    public BuildingViewDto Building { get; set; }
-    public ICollection<InventoryItemViewDto> InventoryItems { get; set; }
+    public Guid BuildingId { get; set; }
+    //public BuildingViewDto Building { get; set; }
+    public List<InventoryItemViewDto> InventoryItems { get; set; }
 }

@@ -10,9 +10,15 @@ public class ServiceResponse<T>
     public ServiceResponse(T value)
     {
         Value = value;
-        Success = false;
+        Success = true;
         Message = string.Empty;
     }
+    public ServiceResponse(string message)
+    {
+        Success = false;
+        Message = message;
+    }
+
     public ServiceResponse()
     {
         

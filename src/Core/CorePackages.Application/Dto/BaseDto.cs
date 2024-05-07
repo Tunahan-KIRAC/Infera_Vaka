@@ -1,8 +1,10 @@
-﻿namespace CorePackages.Domain.Comman;
+﻿using CorePackages.Domain.Comman;
 
-public class BaseEntity
+namespace CorePackages.Application.Dto;
+
+public class BaseDto
 {
-    public BaseEntity()
+    public BaseDto()
     {
         CreatedDate = DateTime.Now;
         Status = DataStatus.Inserted;

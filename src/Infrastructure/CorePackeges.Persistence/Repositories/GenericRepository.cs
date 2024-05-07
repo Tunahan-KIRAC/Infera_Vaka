@@ -2,6 +2,7 @@
 using CorePackages.Domain.Comman;
 using CorePackeges.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CorePackeges.Persistence.Repositories;
 
@@ -17,7 +18,7 @@ public class GenericRepository<T> : IGenericRepositoryAsync<T> where T : BaseEnt
 
     public async Task<T> AddAsync(T entity)
     {
-        await dbContext.Set<T>().AddAsync(entity);
+        await dbContext.AddAsync(entity);
         await dbContext.SaveChangesAsync();
 
         return entity;
@@ -28,17 +29,37 @@ public class GenericRepository<T> : IGenericRepositoryAsync<T> where T : BaseEnt
         return await dbContext.Set<T>().ToListAsync();
     }
 
+    public async Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
+    {
+        var query = dbContext.Set<T>().AsQueryable();
+
+        // Dinamik olarak ilişkili verileri yükle
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.ToListAsync();
+    }
+
+
     public async Task<T> GetByIdAsync(Guid Id)
     {
         return await dbContext.Set<T>().FindAsync(Id);
     }
 
-    public async Task<T> GetByNameAsync(string name)
+
+    public async Task<T> GetByIdAsync(Guid Id, params Expression<Func<T, object>>[] includes)
     {
-        var data = await dbContext.Set<T>().FirstOrDefaultAsync(x=> x.Name == name);
+        var query = dbContext.Set<T>().AsQueryable();
 
+        // Dinamik olarak ilişkili verileri yükle
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
 
-
-        return data;
+        return await query.FirstOrDefaultAsync(e => e.Id == Id);
     }
+
 }
