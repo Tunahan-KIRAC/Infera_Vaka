@@ -31,7 +31,7 @@ namespace CorePackages.WebApi.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById([FromQuery] Guid id)
         {
             var res = new GetByIdDepotQuery();
             res.Id = id;

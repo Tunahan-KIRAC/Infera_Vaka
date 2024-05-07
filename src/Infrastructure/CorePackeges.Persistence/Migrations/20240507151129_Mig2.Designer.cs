@@ -4,6 +4,7 @@ using CorePackeges.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CorePackeges.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507151129_Mig2")]
+    partial class Mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,7 +96,7 @@ namespace CorePackeges.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("DepotId")
+                    b.Property<Guid?>("DepotId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -110,6 +113,8 @@ namespace CorePackeges.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepotId");
 
                     b.ToTable("InventoryItems");
                 });
@@ -146,21 +151,6 @@ namespace CorePackeges.Persistence.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("DepotInventoryItem", b =>
-                {
-                    b.Property<Guid>("DepotsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InventoryItemsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DepotsId", "InventoryItemsId");
-
-                    b.HasIndex("InventoryItemsId");
-
-                    b.ToTable("DepotInventoryItem");
-                });
-
             modelBuilder.Entity("CorePackages.Domain.Entities.Depot", b =>
                 {
                     b.HasOne("CorePackages.Domain.Entities.Building", "Building")
@@ -170,6 +160,13 @@ namespace CorePackeges.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Building");
+                });
+
+            modelBuilder.Entity("CorePackages.Domain.Entities.InventoryItem", b =>
+                {
+                    b.HasOne("CorePackages.Domain.Entities.Depot", null)
+                        .WithMany("InventoryItems")
+                        .HasForeignKey("DepotId");
                 });
 
             modelBuilder.Entity("CorePackages.Domain.Entities.Room", b =>
@@ -183,26 +180,16 @@ namespace CorePackeges.Persistence.Migrations
                     b.Navigation("Building");
                 });
 
-            modelBuilder.Entity("DepotInventoryItem", b =>
-                {
-                    b.HasOne("CorePackages.Domain.Entities.Depot", null)
-                        .WithMany()
-                        .HasForeignKey("DepotsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CorePackages.Domain.Entities.InventoryItem", null)
-                        .WithMany()
-                        .HasForeignKey("InventoryItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CorePackages.Domain.Entities.Building", b =>
                 {
                     b.Navigation("Depots");
 
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("CorePackages.Domain.Entities.Depot", b =>
+                {
+                    b.Navigation("InventoryItems");
                 });
 #pragma warning restore 612, 618
         }

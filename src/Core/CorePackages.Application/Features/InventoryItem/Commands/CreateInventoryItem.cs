@@ -9,6 +9,7 @@ public class CreateInventoryItem : IRequest<ServiceResponse<Guid>>
 {
     public string Name { get; set; }
     public int Quantity { get; set; }
+    public Guid DepotId { get; set; }
 
     public class CreateInventoryItemHandler : IRequestHandler<CreateInventoryItem, ServiceResponse<Guid>>
     {

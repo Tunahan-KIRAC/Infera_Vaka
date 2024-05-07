@@ -8,5 +8,6 @@ public class Depot : BaseEntity
 
     // Navigation property for building
     public Building Building { get; set; }
+
     public ICollection<InventoryItem> InventoryItems { get; set; }
 }

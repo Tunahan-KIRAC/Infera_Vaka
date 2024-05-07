@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CorePackages.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class InventoryItemController : ControllerBase
     {
@@ -31,7 +31,7 @@ namespace CorePackages.WebApi.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById([FromQuery] Guid id)
         {
             var res = new GetByIdInventoryItemQuery();
             res.Id = id;
