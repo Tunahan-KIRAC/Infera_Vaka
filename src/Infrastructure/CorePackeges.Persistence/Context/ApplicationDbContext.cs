@@ -1,9 +1,10 @@
 ﻿using CorePackages.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CorePackeges.Persistence.Context;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User,Role,Guid>
 {
     public DbSet<Building> Buildings { get; set; }
     public DbSet<Room> Rooms { get; set; }
