@@ -7,7 +7,7 @@ public class BaseEntity
         CreatedDate = DateTime.Now;
         Status = DataStatus.Inserted;
     }
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } 
     public DateTime CreatedDate { get; set; }
     public DateTime? ModifiedDate { get; set; }
     public DateTime? DeletedDate { get; set; }
